@@ -854,7 +854,7 @@
             cm.scrollTo(null, (coords.top + coords.bottom - clientHeight) / 2);
             
             if (settings.watch)
-            {            
+            {
                 var cmScroll  = this.codeMirror.find(".CodeMirror-scroll")[0];
                 var height    = $(cmScroll).height(); 
                 var scrollTop = cmScroll.scrollTop;         
@@ -1684,18 +1684,22 @@
                     
                     var tocMenuHeight = preview.find(".editormd-toc-menu").height();
                     tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
-
+                    var iframesHeight = $.find('iframe').reduce(
+                        function(total, fr){
+                            return total + parseInt(fr.height)
+                        }, 0
+                    )
                     if (scrollTop === 0) 
                     {
                         preview.scrollTop(0);
                     } 
                     else if (scrollTop + height >= $(this)[0].scrollHeight - 16)
                     { 
-                        preview.scrollTop(preview[0].scrollHeight);                        
+                        preview.scrollTop(preview[0].scrollHeight + iframesHeight);
                     } 
                     else
                     {
-                        preview.scrollTop((preview[0].scrollHeight  + tocHeight + tocMenuHeight) * percent);
+                        preview.scrollTop((preview[0].scrollHeight  + tocHeight + tocMenuHeight) * percent + iframesHeight);
                     }
                     
                     $.proxy(settings.onscroll, _this)(event);
@@ -4609,3 +4613,4 @@
     return editormd;
 
 }));
+
