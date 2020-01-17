@@ -45,38 +45,38 @@
 	if (typeof ($) === "undefined") {
 		return ;
 	}
-    
+
     /**
      * editormd
-     * 
+     *
      * @param   {String} id           编辑器的ID
      * @param   {Object} options      配置选项 Key/Value
      * @returns {Object} editormd     返回editormd对象
      */
-    
+
     var editormd         = function (id, options) {
         return new editormd.fn.init(id, options);
     };
-    
+
     editormd.title        = editormd.$name = "Editor.md";
     editormd.version      = "1.5.0";
     editormd.homePage     = "https://pandao.github.io/editor.md/";
     editormd.classPrefix  = "editormd-";
-    
+
     editormd.toolbarModes = {
         full : [
-            "undo", "redo", "|", 
-            "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|", 
-            "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+            "undo", "redo", "|",
+            "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+            "h1", "h2", "h3", "h4", "h5", "h6", "|",
             "list-ul", "list-ol", "hr", "|",
             "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
             "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
             "help", "info"
         ],
         simple : [
-            "undo", "redo", "|", 
-            "bold", "del", "italic", "quote", "uppercase", "lowercase", "|", 
-            "h1", "h2", "h3", "h4", "h5", "h6", "|", 
+            "undo", "redo", "|",
+            "bold", "del", "italic", "quote", "uppercase", "lowercase", "|",
+            "h1", "h2", "h3", "h4", "h5", "h6", "|",
             "list-ul", "list-ol", "hr", "|",
             "watch", "preview", "fullscreen", "|",
             "help", "info"
@@ -87,7 +87,7 @@
             "help", "info"
         ]
     };
-    
+
     editormd.defaults     = {
         mode                 : "gfm",          //gfm or markdown
         name                 : "",             // Form element name
@@ -132,7 +132,7 @@
         fontSize             : "13px",
         saveHTMLToTextarea   : false,
         disabledKeyMaps      : [],
-        
+
         onload               : function() {},
         onresize             : function() {},
         onchange             : function() {},
@@ -144,20 +144,20 @@
         onfullscreenExit     : function() {},
         onscroll             : function() {},
         onpreviewscroll      : function() {},
-        
+
         imageUpload          : false,
         imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         imageUploadURL       : "",
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
-        
+
         toc                  : true,           // Table of contents
         tocm                 : false,           // Using [TOCM], auto create ToC dropdown menu
         tocTitle             : "",             // for ToC dropdown menu btn
         tocDropdown          : false,
         tocContainer         : "",
         tocStartLevel        : 1,              // Said from H1 to create ToC
-        htmlDecode           : false,          // Open the HTML tag identification 
+        htmlDecode           : false,          // Open the HTML tag identification
         pageBreak            : true,           // Enable parse page break [========]
         atLink               : true,           // for @link
         emailLink            : true,           // for email address auto link
@@ -169,7 +169,7 @@
         flowChart            : false,          // flowChart.js only support IE9+
         sequenceDiagram      : false,          // sequenceDiagram.js only support IE9+
         previewCodeHighlight : true,
-                
+
         toolbar              : true,           // show/hide toolbar
         toolbarAutoFixed     : true,           // on window scroll auto fixed position
         toolbarIcons         : "full",
@@ -185,7 +185,7 @@
         toolbarCustomIcons   : {               // using html tag create toolbar icon, unused default <a> tag.
             lowercase        : "<a href=\"javascript:;\" title=\"Lowercase\" unselectable=\"on\"><i class=\"fa\" name=\"lowercase\" style=\"font-size:24px;margin-top: -10px;\">a</i></a>",
             "ucwords"        : "<a href=\"javascript:;\" title=\"ucwords\" unselectable=\"on\"><i class=\"fa\" name=\"ucwords\" style=\"font-size:20px;margin-top: -3px;\">Aa</i></a>"
-        }, 
+        },
         toolbarIconsClass    : {
             undo             : "fa-undo",
             redo             : "fa-repeat",
@@ -223,9 +223,9 @@
             clear            : "fa-eraser",
             help             : "fa-question-circle",
             info             : "fa-info-circle"
-        },        
+        },
         toolbarIconTexts     : {},
-        
+
         lang : {
             name        : "zh-cn",
             description : "开源在线Markdown编辑器<br/>Open source online Markdown editor.",
@@ -303,11 +303,11 @@
                     formatNotAllowed : "错误：只允许上传图片文件，允许上传的图片文件格式有："
                 },
                 preformattedText : {
-                    title             : "添加预格式文本或代码块", 
+                    title             : "添加预格式文本或代码块",
                     emptyAlert        : "错误：请填写预格式文本或代码的内容。"
                 },
                 codeBlock : {
-                    title             : "添加代码块",                    
+                    title             : "添加代码块",
                     selectLabel       : "代码语言：",
                     selectDefaultText : "请选择代码语言",
                     otherLanguage     : "其他语言",
@@ -323,18 +323,18 @@
             }
         }
     };
-    
+
     editormd.classNames  = {
         tex : editormd.classPrefix + "tex"
     };
 
     editormd.dialogZindex = 99999;
-    
+
     editormd.$katex       = null;
     editormd.$marked      = null;
     editormd.$CodeMirror  = null;
     editormd.$prettyPrint = null;
-    
+
     var timer, flowchartTimer;
 
     editormd.prototype    = editormd.fn = {
@@ -344,76 +344,76 @@
             preview    : false,
             fullscreen : false
         },
-        
+
         /**
          * 构造函数/实例初始化
          * Constructor / instance initialization
-         * 
+         *
          * @param   {String}   id            编辑器的ID
          * @param   {Object}   [options={}]  配置选项 Key/Value
          * @returns {editormd}               返回editormd的实例对象
          */
-        
+
         init : function (id, options) {
-            
+
             options              = options || {};
-            
+
             if (typeof id === "object")
             {
                 options = id;
             }
-            
+
             var _this            = this;
-            var classPrefix      = this.classPrefix  = editormd.classPrefix; 
+            var classPrefix      = this.classPrefix  = editormd.classPrefix;
             var settings         = this.settings     = $.extend(true, {}, editormd.defaults, options);
-            
+
             id                   = (typeof id === "object") ? settings.id : id;
-            
+
             var editor           = this.editor       = $("#" + id);
-            
+
             this.id              = id;
             this.lang            = settings.lang;
-            
+
             var classNames       = this.classNames   = {
                 textarea : {
                     html     : classPrefix + "html-textarea",
                     markdown : classPrefix + "markdown-textarea"
                 }
             };
-            
-            settings.pluginPath = (settings.pluginPath === "") ? settings.path + "../plugins/" : settings.pluginPath; 
-            
+
+            settings.pluginPath = (settings.pluginPath === "") ? settings.path + "../plugins/" : settings.pluginPath;
+
             this.state.watching = (settings.watch) ? true : false;
-            
+
             if ( !editor.hasClass("editormd") ) {
                 editor.addClass("editormd");
             }
-            
+
             editor.css({
                 width  : (typeof settings.width  === "number") ? settings.width  + "px" : settings.width,
                 height : (typeof settings.height === "number") ? settings.height + "px" : settings.height
             });
-            
+
             if (settings.autoHeight)
             {
                 editor.css("height", "auto");
             }
-                        
+
             var markdownTextarea = this.markdownTextarea = editor.children("textarea");
-            
+
             if (markdownTextarea.length < 1)
             {
                 editor.append("<textarea></textarea>");
                 markdownTextarea = this.markdownTextarea = editor.children("textarea");
             }
-            
+
             markdownTextarea.addClass(classNames.textarea.markdown).attr("placeholder", settings.placeholder);
-            
+
             if (typeof markdownTextarea.attr("name") === "undefined" || markdownTextarea.attr("name") === "")
             {
                 markdownTextarea.attr("name", (settings.name !== "") ? settings.name : id + "-markdown-doc");
             }
-            
+
             var appendElements = [
                 (!settings.readOnly) ? "<a href=\"javascript:;\" class=\"fa fa-close " + classPrefix + "preview-close-btn\"></a>" : "",
                 ( (settings.saveHTMLToTextarea) ? "<textarea class=\"" + classNames.textarea.html + "\" name=\"" + id + "-html-code\"></textarea>" : "" ),
@@ -421,114 +421,114 @@
                 "<div class=\"" + classPrefix + "container-mask\" style=\"display:block;\"></div>",
                 "<div class=\"" + classPrefix + "mask\"></div>"
             ].join("\n");
-            
+
             editor.append(appendElements).addClass(classPrefix + "vertical");
-            
-            if (settings.theme !== "") 
+
+            if (settings.theme !== "")
             {
                 editor.addClass(classPrefix + "theme-" + settings.theme);
             }
-            
-            this.mask          = editor.children("." + classPrefix + "mask");    
+
+            this.mask          = editor.children("." + classPrefix + "mask");
             this.containerMask = editor.children("." + classPrefix  + "container-mask");
-            
+
             if (settings.markdown !== "")
             {
                 markdownTextarea.val(settings.markdown);
             }
-            
+
             if (settings.appendMarkdown !== "")
             {
                 markdownTextarea.val(markdownTextarea.val() + settings.appendMarkdown);
             }
-            
-            this.htmlTextarea     = editor.children("." + classNames.textarea.html);            
+
+            this.htmlTextarea     = editor.children("." + classNames.textarea.html);
             this.preview          = editor.children("." + classPrefix + "preview");
             this.previewContainer = this.preview.children("." + classPrefix + "preview-container");
-            
-            if (settings.previewTheme !== "") 
+
+            if (settings.previewTheme !== "")
             {
                 this.preview.addClass(classPrefix + "preview-theme-" + settings.previewTheme);
             }
-            
+
             if (typeof define === "function" && define.amd)
             {
-                if (typeof katex !== "undefined") 
+                if (typeof katex !== "undefined")
                 {
                     editormd.$katex = katex;
                 }
-                
-                if (settings.searchReplace && !settings.readOnly) 
+
+                if (settings.searchReplace && !settings.readOnly)
                 {
                     editormd.loadCSS(settings.path + "codemirror/addon/dialog/dialog");
                     editormd.loadCSS(settings.path + "codemirror/addon/search/matchesonscrollbar");
                 }
             }
-            
+
             if ((typeof define === "function" && define.amd) || !settings.autoLoadModules)
             {
                 if (typeof CodeMirror !== "undefined") {
                     editormd.$CodeMirror = CodeMirror;
                 }
-                
+
                 if (typeof marked     !== "undefined") {
                     editormd.$marked     = marked;
                 }
-                
+
                 this.setCodeMirror().setToolbar().loadedDisplay();
-            } 
-            else 
+            }
+            else
             {
                 this.loadQueues();
             }
 
             return this;
         },
-        
+
         /**
          * 所需组件加载队列
          * Required components loading queue
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         loadQueues : function() {
             var _this        = this;
             var settings     = this.settings;
             var loadPath     = settings.path;
-                                
+
             var loadFlowChartOrSequenceDiagram = function() {
-                
-                if (editormd.isIE8) 
+
+                if (editormd.isIE8)
                 {
                     _this.loadedDisplay();
-                    
+
                     return ;
                 }
 
-                if (settings.flowChart || settings.sequenceDiagram) 
+                if (settings.flowChart || settings.sequenceDiagram)
                 {
                     editormd.loadScript(loadPath + "raphael.min", function() {
 
-                        editormd.loadScript(loadPath + "underscore.min", function() {  
+                        editormd.loadScript(loadPath + "underscore.min", function() {
 
-                            if (!settings.flowChart && settings.sequenceDiagram) 
+                            if (!settings.flowChart && settings.sequenceDiagram)
                             {
                                 editormd.loadScript(loadPath + "sequence-diagram.min", function() {
                                     _this.loadedDisplay();
                                 });
                             }
-                            else if (settings.flowChart && !settings.sequenceDiagram) 
-                            {      
-                                editormd.loadScript(loadPath + "flowchart.min", function() {  
+                            else if (settings.flowChart && !settings.sequenceDiagram)
+                            {
+                                editormd.loadScript(loadPath + "flowchart.min", function() {
                                     editormd.loadScript(loadPath + "jquery.flowchart.min", function() {
                                         _this.loadedDisplay();
                                     });
                                 });
                             }
-                            else if (settings.flowChart && settings.sequenceDiagram) 
-                            {  
-                                editormd.loadScript(loadPath + "flowchart.min", function() {  
+                            else if (settings.flowChart && settings.sequenceDiagram)
+                            {
+                                editormd.loadScript(loadPath + "flowchart.min", function() {
                                     editormd.loadScript(loadPath + "jquery.flowchart.min", function() {
                                         editormd.loadScript(loadPath + "sequence-diagram.min", function() {
                                             _this.loadedDisplay();
@@ -539,157 +539,157 @@
                         });
 
                     });
-                } 
+                }
                 else
                 {
                     _this.loadedDisplay();
                 }
-            }; 
+            };
 
             editormd.loadCSS(loadPath + "codemirror/codemirror.min");
-            
+
             if (settings.searchReplace && !settings.readOnly)
             {
                 editormd.loadCSS(loadPath + "codemirror/addon/dialog/dialog");
                 editormd.loadCSS(loadPath + "codemirror/addon/search/matchesonscrollbar");
             }
-            
+
             if (settings.codeFold)
             {
-                editormd.loadCSS(loadPath + "codemirror/addon/fold/foldgutter");            
+                editormd.loadCSS(loadPath + "codemirror/addon/fold/foldgutter");
             }
-            
+
             editormd.loadScript(loadPath + "codemirror/codemirror.min", function() {
                 editormd.$CodeMirror = CodeMirror;
-                
+
                 editormd.loadScript(loadPath + "codemirror/modes.min", function() {
-                    
+
                     editormd.loadScript(loadPath + "codemirror/addons.min", function() {
-                        
+
                         _this.setCodeMirror();
-                        
-                        if (settings.mode !== "gfm" && settings.mode !== "markdown") 
+
+                        if (settings.mode !== "gfm" && settings.mode !== "markdown")
                         {
                             _this.loadedDisplay();
-                            
+
                             return false;
                         }
-                        
+
                         _this.setToolbar();
 
                         editormd.loadScript(loadPath + "marked.min", function() {
 
                             editormd.$marked = marked;
-                                
-                            if (settings.previewCodeHighlight) 
+
+                            if (settings.previewCodeHighlight)
                             {
                                 editormd.loadScript(loadPath + "prettify.min", function() {
                                     loadFlowChartOrSequenceDiagram();
                                 });
-                            } 
+                            }
                             else
-                            {                  
+                            {
                                 loadFlowChartOrSequenceDiagram();
                             }
                         });
-                        
+
                     });
-                    
+
                 });
-                
+
             });
 
             return this;
         },
-        
+
         /**
          * 设置 Editor.md 的整体主题，主要是工具栏
          * Setting Editor.md theme
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         setTheme : function(theme) {
             var editor      = this.editor;
             var oldTheme    = this.settings.theme;
             var themePrefix = this.classPrefix + "theme-";
-            
+
             editor.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
-            
+
             this.settings.theme = theme;
-            
+
             return this;
         },
-        
+
         /**
          * 设置 CodeMirror（编辑区）的主题
          * Setting CodeMirror (Editor area) theme
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
-        setEditorTheme : function(theme) {  
-            var settings   = this.settings;  
-            settings.editorTheme = theme;  
-            
+
+        setEditorTheme : function(theme) {
+            var settings   = this.settings;
+            settings.editorTheme = theme;
+
             if (theme !== "default")
             {
                 editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
             }
-            
+
             this.cm.setOption("theme", theme);
-            
+
             return this;
         },
-        
+
         /**
          * setEditorTheme() 的别名
          * setEditorTheme() alias
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
-        setCodeMirrorTheme : function (theme) {            
+
+        setCodeMirrorTheme : function (theme) {
             this.setEditorTheme(theme);
-            
+
             return this;
         },
-        
+
         /**
          * 设置 Editor.md 的主题
          * Setting Editor.md theme
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
-        setPreviewTheme : function(theme) {  
+
+        setPreviewTheme : function(theme) {
             var preview     = this.preview;
             var oldTheme    = this.settings.previewTheme;
             var themePrefix = this.classPrefix + "preview-theme-";
-            
+
             preview.removeClass(themePrefix + oldTheme).addClass(themePrefix + theme);
-            
+
             this.settings.previewTheme = theme;
-            
+
             return this;
         },
-        
+
         /**
          * 配置和初始化CodeMirror组件
          * CodeMirror initialization
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
-        setCodeMirror : function() { 
+
+        setCodeMirror : function() {
             var settings         = this.settings;
             var editor           = this.editor;
-            
+
             if (settings.editorTheme !== "default")
             {
                 editormd.loadCSS(settings.path + "codemirror/theme/" + settings.editorTheme);
             }
-            
+
             var codeMirrorConfig = {
                 mode                      : settings.mode,
                 theme                     : settings.editorTheme,
@@ -702,8 +702,8 @@
                 lineNumbers               : settings.lineNumbers,
                 lineWrapping              : settings.lineWrapping,
                 extraKeys                 : {
-                                                "Ctrl-Q": function(cm) { 
-                                                    cm.foldCode(cm.getCursor()); 
+                                                "Ctrl-Q": function(cm) {
+                                                    cm.foldCode(cm.getCursor());
                                                 }
                                             },
                 foldGutter                : settings.codeFold,
@@ -716,10 +716,10 @@
                 showTrailingSpace         : settings.showTrailingSpace,
                 highlightSelectionMatches : ( (!settings.matchWordHighlight) ? false : { showToken: (settings.matchWordHighlight === "onselected") ? false : /\w/ } )
             };
-            
+
             this.codeEditor = this.cm        = editormd.$CodeMirror.fromTextArea(this.markdownTextarea[0], codeMirrorConfig);
             this.codeMirror = this.cmElement = editor.children(".CodeMirror");
-            
+
             if (settings.value !== "")
             {
                 this.cm.setValue(settings.value);
@@ -729,13 +729,13 @@
                 fontSize : settings.fontSize,
                 width    : (!settings.watch) ? "100%" : "50%"
             });
-            
+
             if (settings.autoHeight)
             {
                 this.codeMirror.css("height", "auto");
                 this.cm.setOption("viewportMargin", Infinity);
             }
-            
+
             if (!settings.lineNumbers)
             {
                 this.codeMirror.find(".CodeMirror-gutters").css("border-right", "none");
@@ -743,149 +743,149 @@
 
             return this;
         },
-        
+
         /**
          * 获取CodeMirror的配置选项
          * Get CodeMirror setting options
-         * 
+         *
          * @returns {Mixed}                  return CodeMirror setting option value
          */
-        
-        getCodeMirrorOption : function(key) {            
+
+        getCodeMirrorOption : function(key) {
             return this.cm.getOption(key);
         },
-        
+
         /**
          * 配置和重配置CodeMirror的选项
          * CodeMirror setting options / resettings
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         setCodeMirrorOption : function(key, value) {
-            
+
             this.cm.setOption(key, value);
-            
+
             return this;
         },
-        
+
         /**
          * 添加 CodeMirror 键盘快捷键
          * Add CodeMirror keyboard shortcuts key map
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         addKeyMap : function(map, bottom) {
             this.cm.addKeyMap(map, bottom);
-            
+
             return this;
         },
-        
+
         /**
          * 移除 CodeMirror 键盘快捷键
          * Remove CodeMirror keyboard shortcuts key map
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         removeKeyMap : function(map) {
             this.cm.removeKeyMap(map);
-            
+
             return this;
         },
-        
+
         /**
          * 跳转到指定的行
          * Goto CodeMirror line
-         * 
+         *
          * @param   {String|Intiger}   line      line number or "first"|"last"
          * @returns {editormd}                   返回editormd的实例对象
          */
-        
+
         gotoLine : function (line) {
-            
+
             var settings = this.settings;
-            
+
             if (!settings.gotoLine)
             {
                 return this;
             }
-            
+
             var cm       = this.cm;
             var editor   = this.editor;
             var count    = cm.lineCount();
             var preview  = this.preview;
-            
+
             if (typeof line === "string")
             {
                 if(line === "last")
                 {
                     line = count;
                 }
-            
+
                 if (line === "first")
                 {
                     line = 1;
                 }
             }
-            
-            if (typeof line !== "number") 
-            {  
+
+            if (typeof line !== "number")
+            {
                 alert("Error: The line number must be an integer.");
                 return this;
             }
-            
+
             line  = parseInt(line) - 1;
-            
+
             if (line > count)
             {
                 alert("Error: The line number range 1-" + count);
-                
+
                 return this;
             }
-            
+
             cm.setCursor( {line : line, ch : 0} );
-            
+
             var scrollInfo   = cm.getScrollInfo();
-            var clientHeight = scrollInfo.clientHeight; 
+            var clientHeight = scrollInfo.clientHeight;
             var coords       = cm.charCoords({line : line, ch : 0}, "local");
-            
+
             cm.scrollTo(null, (coords.top + coords.bottom - clientHeight) / 2);
-            
+
             if (settings.watch)
             {
                 var cmScroll  = this.codeMirror.find(".CodeMirror-scroll")[0];
-                var height    = $(cmScroll).height(); 
-                var scrollTop = cmScroll.scrollTop;         
+                var height    = $(cmScroll).height();
+                var scrollTop = cmScroll.scrollTop;
                 var percent   = (scrollTop / cmScroll.scrollHeight);
 
                 if (scrollTop === 0)
                 {
                     preview.scrollTop(0);
-                } 
+                }
                 else if (scrollTop + height >= cmScroll.scrollHeight - 16)
-                { 
+                {
                     preview.scrollTop(preview[0].scrollHeight);                    
-                } 
+                }
                 else
-                {                    
+                {
                     preview.scrollTop(preview[0].scrollHeight * percent);
                 }
             }
 
             cm.focus();
-            
+
             return this;
         },
-        
+
         /**
          * 扩展当前实例对象，可同时设置多个或者只设置一个
          * Extend editormd instance object, can mutil setting.
-         * 
+         *
          * @returns {editormd}                  this(editormd instance object.)
          */
-        
+
         extend : function() {
             if (typeof arguments[1] !== "undefined")
             {
@@ -896,7 +896,7 @@
 
                 this[arguments[0]] = arguments[1];
             }
-            
+
             if (typeof arguments[0] === "object" && typeof arguments[0].length === "undefined")
             {
                 $.extend(true, this, arguments[0]);
@@ -904,168 +904,168 @@
 
             return this;
         },
-        
+
         /**
          * 设置或扩展当前实例对象，单个设置
          * Extend editormd instance object, one by one
-         * 
+         *
          * @param   {String|Object}   key       option key
          * @param   {String|Object}   value     option value
          * @returns {editormd}                  this(editormd instance object.)
          */
-        
+
         set : function (key, value) {
-            
+
             if (typeof value !== "undefined" && typeof value === "function")
             {
                 value = $.proxy(value, this);
             }
-            
+
             this[key] = value;
 
             return this;
         },
-        
+
         /**
          * 重新配置
          * Resetting editor options
-         * 
+         *
          * @param   {String|Object}   key       option key
          * @param   {String|Object}   value     option value
          * @returns {editormd}                  this(editormd instance object.)
          */
-        
+
         config : function(key, value) {
             var settings = this.settings;
-            
+
             if (typeof key === "object")
             {
                 settings = $.extend(true, settings, key);
             }
-            
+
             if (typeof key === "string")
             {
                 settings[key] = value;
             }
-            
+
             this.settings = settings;
             this.recreate();
-            
+
             return this;
         },
-        
+
         /**
          * 注册事件处理方法
          * Bind editor event handle
-         * 
+         *
          * @param   {String}     eventType      event type
          * @param   {Function}   callback       回调函数
          * @returns {editormd}                  this(editormd instance object.)
          */
-        
+
         on : function(eventType, callback) {
             var settings = this.settings;
-            
-            if (typeof settings["on" + eventType] !== "undefined") 
-            {                
-                settings["on" + eventType] = $.proxy(callback, this);      
+
+            if (typeof settings["on" + eventType] !== "undefined")
+            {
+                settings["on" + eventType] = $.proxy(callback, this);
             }
 
             return this;
         },
-        
+
         /**
          * 解除事件处理方法
          * Unbind editor event handle
-         * 
+         *
          * @param   {String}   eventType          event type
          * @returns {editormd}                    this(editormd instance object.)
          */
-        
+
         off : function(eventType) {
             var settings = this.settings;
-            
-            if (typeof settings["on" + eventType] !== "undefined") 
+
+            if (typeof settings["on" + eventType] !== "undefined")
             {
                 settings["on" + eventType] = function(){};
             }
-            
+
             return this;
         },
-        
+
         /**
          * 显示工具栏
          * Display toolbar
-         * 
+         *
          * @param   {Function} [callback=function(){}] 回调函数
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         showToolbar : function(callback) {
             var settings = this.settings;
-            
+
             if(settings.readOnly) {
                 return this;
             }
-            
+
             if (settings.toolbar && (this.toolbar.length < 1 || this.toolbar.find("." + this.classPrefix + "menu").html() === "") )
             {
                 this.setToolbar();
             }
-            
-            settings.toolbar = true; 
-            
+
+            settings.toolbar = true;
+
             this.toolbar.show();
             this.resize();
-            
+
             $.proxy(callback || function(){}, this)();
 
             return this;
         },
-        
+
         /**
          * 隐藏工具栏
          * Hide toolbar
-         * 
+         *
          * @param   {Function} [callback=function(){}] 回调函数
          * @returns {editormd}                         this(editormd instance object.)
          */
-        
-        hideToolbar : function(callback) { 
+
+        hideToolbar : function(callback) {
             var settings = this.settings;
-            
-            settings.toolbar = false;  
+
+            settings.toolbar = false;
             this.toolbar.hide();
             this.resize();
-            
+
             $.proxy(callback || function(){}, this)();
 
             return this;
         },
-        
+
         /**
          * 页面滚动时工具栏的固定定位
          * Set toolbar in window scroll auto fixed position
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         setToolbarAutoFixed : function(fixed) {
-            
+
             var state    = this.state;
             var editor   = this.editor;
             var toolbar  = this.toolbar;
             var settings = this.settings;
-            
+
             if (typeof fixed !== "undefined")
             {
                 settings.toolbarAutoFixed = fixed;
             }
-            
+
             var autoFixedHandle = function(){
                 var $window = $(window);
                 var top     = $window.scrollTop();
-                
+
                 if (!settings.toolbarAutoFixed)
                 {
                     return false;
@@ -1088,7 +1088,7 @@
                     });
                 }
             };
-            
+
             if (!state.fullscreen && !state.preview && settings.toolbar && settings.toolbarAutoFixed)
             {
                 $(window).bind("scroll", autoFixedHandle);
@@ -1096,58 +1096,58 @@
 
             return this;
         },
-        
+
         /**
          * 配置和初始化工具栏
          * Set toolbar and Initialization
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         setToolbar : function() {
-            var settings    = this.settings;  
-            
+            var settings    = this.settings;
+
             if(settings.readOnly) {
                 return this;
             }
-            
+
             var editor      = this.editor;
             var preview     = this.preview;
             var classPrefix = this.classPrefix;
-            
+
             var toolbar     = this.toolbar = editor.children("." + classPrefix + "toolbar");
-            
+
             if (settings.toolbar && toolbar.length < 1)
-            {            
+            {
                 var toolbarHTML = "<div class=\"" + classPrefix + "toolbar\"><div class=\"" + classPrefix + "toolbar-container\"><ul class=\"" + classPrefix + "menu\"></ul></div></div>";
-                
+
                 editor.append(toolbarHTML);
                 toolbar = this.toolbar = editor.children("." + classPrefix + "toolbar");
             }
-            
-            if (!settings.toolbar) 
+
+            if (!settings.toolbar)
             {
                 toolbar.hide();
-                
+
                 return this;
             }
-            
+
             toolbar.show();
-            
-            var icons       = (typeof settings.toolbarIcons === "function") ? settings.toolbarIcons() 
+
+            var icons       = (typeof settings.toolbarIcons === "function") ? settings.toolbarIcons()
                             : ((typeof settings.toolbarIcons === "string")  ? editormd.toolbarModes[settings.toolbarIcons] : settings.toolbarIcons);
-            
+
             var toolbarMenu = toolbar.find("." + this.classPrefix + "menu"), menu = "";
             var pullRight   = false;
-            
+
             for (var i = 0, len = icons.length; i < len; i++)
             {
                 var name = icons[i];
 
-                if (name === "||") 
-                { 
+                if (name === "||")
+                {
                     pullRight = true;
-                } 
+                }
                 else if (name === "|")
                 {
                     menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
@@ -1156,26 +1156,26 @@
                 {
                     var isHeader = (/h(\d)/.test(name));
                     var index    = name;
-                    
+
                     if (name === "watch" && !settings.watch) {
                         index = "unwatch";
                     }
-                    
+
                     var title     = settings.lang.toolbar[index];
                     var iconTexts = settings.toolbarIconTexts[index];
                     var iconClass = settings.toolbarIconsClass[index];
-                    
+
                     title     = (typeof title     === "undefined") ? "" : title;
                     iconTexts = (typeof iconTexts === "undefined") ? "" : iconTexts;
                     iconClass = (typeof iconClass === "undefined") ? "" : iconClass;
 
                     var menuItem = pullRight ? "<li class=\"pull-right\">" : "<li>";
-                    
+
                     if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function")
                     {
                         menuItem += settings.toolbarCustomIcons[name];
                     }
-                    else 
+                    else
                     {
                         menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">";
                         menuItem += "<i class=\"fa " + iconClass + "\" name=\""+name+"\" unselectable=\"on\">"+((isHeader) ? name.toUpperCase() : ( (iconClass === "") ? iconTexts : "") ) + "</i>";
@@ -1189,64 +1189,64 @@
             }
 
             toolbarMenu.html(menu);
-            
+
             toolbarMenu.find("[title=\"Lowercase\"]").attr("title", settings.lang.toolbar.lowercase);
             toolbarMenu.find("[title=\"ucwords\"]").attr("title", settings.lang.toolbar.ucwords);
-            
+
             this.setToolbarHandler();
             this.setToolbarAutoFixed();
 
             return this;
         },
-        
+
         /**
          * 工具栏图标事件处理对象序列
          * Get toolbar icons event handlers
-         * 
+         *
          * @param   {Object}   cm    CodeMirror的实例对象
          * @param   {String}   name  要获取的事件处理器名称
          * @returns {Object}         返回处理对象序列
          */
-            
+
         dialogLockScreen : function() {
             $.proxy(editormd.dialogLockScreen, this)();
-            
+
             return this;
         },
 
         dialogShowMask : function(dialog) {
             $.proxy(editormd.dialogShowMask, this)(dialog);
-            
+
             return this;
         },
-        
-        getToolbarHandles : function(name) {  
+
+        getToolbarHandles : function(name) {
             var toolbarHandlers = this.toolbarHandlers = editormd.toolbarHandlers;
-            
+
             return (name && typeof toolbarIconHandlers[name] !== "undefined") ? toolbarHandlers[name] : toolbarHandlers;
         },
-        
+
         /**
          * 工具栏图标事件处理器
          * Bind toolbar icons event handle
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         setToolbarHandler : function() {
             var _this               = this;
             var settings            = this.settings;
-            
+
             if (!settings.toolbar || settings.readOnly) {
                 return this;
             }
-            
+
             var toolbar             = this.toolbar;
             var cm                  = this.cm;
-            var classPrefix         = this.classPrefix;           
-            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");  
-            var toolbarIconHandlers = this.getToolbarHandles();  
-                
+            var classPrefix         = this.classPrefix;
+            var toolbarIcons        = this.toolbarIcons = toolbar.find("." + classPrefix + "menu > li > a");
+            var toolbarIconHandlers = this.getToolbarHandles();
+
             toolbarIcons.bind(editormd.mouseOrTouch("click", "touchend"), function(event) {
 
                 var icon                = $(this).children(".fa");
@@ -1257,23 +1257,23 @@
                 if (name === "") {
                     return ;
                 }
-                
+
                 _this.activeIcon = icon;
 
-                if (typeof toolbarIconHandlers[name] !== "undefined") 
+                if (typeof toolbarIconHandlers[name] !== "undefined")
                 {
                     $.proxy(toolbarIconHandlers[name], _this)(cm);
                 }
-                else 
+                else
                 {
-                    if (typeof settings.toolbarHandlers[name] !== "undefined") 
+                    if (typeof settings.toolbarHandlers[name] !== "undefined")
                     {
                         $.proxy(settings.toolbarHandlers[name], _this)(cm, icon, cursor, selection);
                     }
                 }
-                
-                if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" && 
-                    name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info") 
+
+                if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" &&
+                    name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info")
                 {
                     cm.focus();
                 }
@@ -1284,31 +1284,31 @@
 
             return this;
         },
-        
+
         /**
          * 动态创建对话框
          * Creating custom dialogs
-         * 
+         *
          * @param   {Object} options  配置项键值对 Key/Value
          * @returns {dialog}          返回创建的dialog的jQuery实例对象
          */
-        
-        createDialog : function(options) {            
+
+        createDialog : function(options) {
             return $.proxy(editormd.createDialog, this)(options);
         },
-        
+
         /**
          * 创建关于Editor.md的对话框
          * Create about Editor.md dialog
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         createInfoDialog : function() {
             var _this        = this;
 			var editor       = this.editor;
-            var classPrefix  = this.classPrefix;  
-            
+            var classPrefix  = this.classPrefix;
+
             var infoDialogHTML = [
                 "<div class=\"" + classPrefix + "dialog " + classPrefix + "dialog-info\" style=\"\">",
                 "<div class=\"" + classPrefix + "dialog-container\">",
@@ -1322,30 +1322,30 @@
             ].join("\n");
 
             editor.append(infoDialogHTML);
-            
+
             var infoDialog  = this.infoDialog = editor.children("." + classPrefix + "dialog-info");
 
             infoDialog.find("." + classPrefix + "dialog-close").bind(editormd.mouseOrTouch("click", "touchend"), function() {
                 _this.hideInfoDialog();
             });
-            
+
             infoDialog.css("border", (editormd.isIE8) ? "1px solid #ddd" : "").css("z-index", editormd.dialogZindex).show();
-            
+
             this.infoDialogPosition();
 
             return this;
         },
-        
+
         /**
          * 关于Editor.md对话居中定位
          * Editor.md dialog position handle
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         infoDialogPosition : function() {
             var infoDialog = this.infoDialog;
-            
+
 			var _infoDialogPosition = function() {
 				infoDialog.css({
 					top  : ($(window).height() - infoDialog.height()) / 2 + "px",
@@ -1356,33 +1356,33 @@
 			_infoDialogPosition();
 
 			$(window).resize(_infoDialogPosition);
-            
+
             return this;
         },
-        
+
         /**
          * 显示关于Editor.md
          * Display about Editor.md dialog
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         showInfoDialog : function() {
 
             $("html,body").css("overflow-x", "hidden");
-            
+
             var _this       = this;
 			var editor      = this.editor;
-            var settings    = this.settings;         
+            var settings    = this.settings;
 			var infoDialog  = this.infoDialog = editor.children("." + this.classPrefix + "dialog-info");
-            
+
             if (infoDialog.length < 1)
             {
                 this.createInfoDialog();
             }
-            
+
             this.lockScreen(true);
-            
+
             this.mask.css({
 						opacity         : settings.dialogMaskOpacity,
 						backgroundColor : settings.dialogMaskBgColor
@@ -1394,15 +1394,15 @@
 
             return this;
         },
-        
+
         /**
          * 隐藏关于Editor.md
          * Hide about Editor.md dialog
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
-        hideInfoDialog : function() {            
+
+        hideInfoDialog : function() {
             $("html,body").css("overflow-x", "");
             this.infoDialog.hide();
             this.mask.hide();
@@ -1410,116 +1410,116 @@
 
             return this;
         },
-        
+
         /**
          * 锁屏
          * lock screen
-         * 
+         *
          * @param   {Boolean}    lock    Boolean 布尔值，是否锁屏
          * @returns {editormd}           返回editormd的实例对象
          */
-        
+
         lockScreen : function(lock) {
             editormd.lockScreen(lock);
             this.resize();
 
             return this;
         },
-        
+
         /**
          * 编辑器界面重建，用于动态语言包或模块加载等
          * Recreate editor
-         * 
+         *
          * @returns {editormd}  返回editormd的实例对象
          */
-        
+
         recreate : function() {
             var _this            = this;
             var editor           = this.editor;
             var settings         = this.settings;
-            
+
             this.codeMirror.remove();
-            
+
             this.setCodeMirror();
 
-            if (!settings.readOnly) 
+            if (!settings.readOnly)
             {
                 if (editor.find(".editormd-dialog").length > 0) {
                     editor.find(".editormd-dialog").remove();
                 }
-                
-                if (settings.toolbar) 
-                {  
-                    this.getToolbarHandles();                  
+
+                if (settings.toolbar)
+                {
+                    this.getToolbarHandles();
                     this.setToolbar();
                 }
             }
-            
+
             this.loadedDisplay(true);
 
             return this;
         },
-        
+
         /**
          * 高亮预览HTML的pre代码部分
          * highlight of preview codes
-         * 
+         *
          * @returns {editormd}             返回editormd的实例对象
          */
-        
-        previewCodeHighlight : function() {    
+
+        previewCodeHighlight : function() {
             var settings         = this.settings;
             var previewContainer = this.previewContainer;
-            
-            if (settings.previewCodeHighlight) 
+
+            if (settings.previewCodeHighlight)
             {
                 previewContainer.find("pre").addClass("prettyprint linenums");
-                
+
                 if (typeof prettyPrint !== "undefined")
-                {                    
+                {
                     prettyPrint();
                 }
             }
 
             return this;
         },
-        
+
         /**
          * 解析TeX(KaTeX)科学公式
          * TeX(KaTeX) Renderer
-         * 
+         *
          * @returns {editormd}             返回editormd的实例对象
          */
-        
+
         katexRender : function() {
-            
+
             if (timer === null)
             {
                 return this;
             }
-            
+
             this.previewContainer.find("." + editormd.classNames.tex).each(function(){
                 var tex  = $(this);
                 editormd.$katex.render(tex.text(), tex[0]);
-                
+
                 tex.find(".katex").css("font-size", "1.6em");
-            });   
+            });
 
             return this;
         },
-        
+
         /**
          * 解析和渲染流程图及时序图
          * FlowChart and SequenceDiagram Renderer
-         * 
+         *
          * @returns {editormd}             返回editormd的实例对象
          */
-        
+
         flowChartAndSequenceDiagramRender : function() {
             var $this            = this;
             var settings         = this.settings;
             var previewContainer = this.previewContainer;
-            
+
             if (editormd.isIE8) {
                 return this;
             }
@@ -1528,64 +1528,69 @@
                 if (flowchartTimer === null) {
                     return this;
                 }
-                
-                previewContainer.find(".flowchart").flowChart(); 
+
+                previewContainer.find(".flowchart").flowChart();
             }
 
             if (settings.sequenceDiagram) {
                 previewContainer.find(".sequence-diagram").sequenceDiagram({theme: "simple"});
             }
-                    
+
             var preview    = $this.preview;
             var codeMirror = $this.codeMirror;
             var codeView   = codeMirror.find(".CodeMirror-scroll");
 
             var height    = codeView.height();
-            var scrollTop = codeView.scrollTop();                    
-            var percent   = (scrollTop / codeView[0].scrollHeight);
+            var scrollTop = codeView.scrollTop();
+            var percent   = (scrollTop / codeView[0].scrollTopMax);
             var tocHeight = 0;
+            var iframesHeight = $.find('iframe').reduce(
+                function(total, fr){
+                    return total + parseInt(fr.height)
+                }, 0
+            )
 
             preview.find(".markdown-toc-list").each(function(){
                 tocHeight += $(this).height();
             });
 
-            var tocMenuHeight = preview.find(".editormd-toc-menu").height(); 
+            var tocMenuHeight = preview.find(".editormd-toc-menu").height();
             tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
 
-            if (scrollTop === 0) 
+            if (scrollTop === 0)
             {
                 preview.scrollTop(0);
             } 
             else if (scrollTop + height >= codeView[0].scrollHeight - 16)
-            { 
-                preview.scrollTop(preview[0].scrollHeight);                        
-            } 
+            {
+                preview.scrollTop(preview[0].scrollTopMax);
+            }
             else
-            {                  
-                preview.scrollTop((preview[0].scrollHeight + tocHeight + tocMenuHeight) * percent);
+            {
+                preview.scrollTop((preview[0].scrollTopMax + tocHeight + tocMenuHeight + iframesHeight) * percent);
             }
 
             return this;
         },
-        
+
         /**
          * 注册键盘快捷键处理
          * Register CodeMirror keyMaps (keyboard shortcuts).
-         * 
+         *
          * @param   {Object}    keyMap      KeyMap key/value {"(Ctrl/Shift/Alt)-Key" : function(){}}
          * @returns {editormd}              return this
          */
-        
+
         registerKeyMaps : function(keyMap) {
-            
+
             var _this           = this;
             var cm              = this.cm;
             var settings        = this.settings;
             var toolbarHandlers = editormd.toolbarHandlers;
             var disabledKeyMaps = settings.disabledKeyMaps;
-            
+
             keyMap              = keyMap || null;
-            
+
             if (keyMap)
             {
                 for (var i in keyMap)
@@ -1605,7 +1610,7 @@
                 {
                     var _keyMap = editormd.keyMaps[k];
                     var handle = (typeof _keyMap === "string") ? $.proxy(toolbarHandlers[_keyMap], _this) : $.proxy(_keyMap, _this);
-                    
+
                     if ($.inArray(k, ["F9", "F10", "F11"]) < 0 && $.inArray(k, disabledKeyMaps) < 0)
                     {
                         var _map = {};
@@ -1614,15 +1619,15 @@
                         cm.addKeyMap(_map);
                     }
                 }
-                
+
                 $(window).keydown(function(event) {
-                    
+
                     var keymaps = {
                         "120" : "F9",
                         "121" : "F10",
                         "122" : "F11"
                     };
-                    
+
                     if ( $.inArray(keymaps[event.keyCode], disabledKeyMaps) < 0 )
                     {
                         switch (event.keyCode)
@@ -1631,17 +1636,17 @@
                                     $.proxy(toolbarHandlers["watch"], _this)();
                                     return false;
                                 break;
-                                
+
                             case 121:
                                     $.proxy(toolbarHandlers["preview"], _this)();
                                     return false;
                                 break;
-                                
+
                             case 122:
-                                    $.proxy(toolbarHandlers["fullscreen"], _this)();                        
+                                    $.proxy(toolbarHandlers["fullscreen"], _this)();
                                     return false;
                                 break;
-                                
+
                             default:
                                 break;
                         }
@@ -1651,55 +1656,50 @@
 
             return this;
         },
-        
+
         /**
          * 绑定同步滚动
-         * 
+         *
          * @returns {editormd} return this
          */
-        
+
         bindScrollEvent : function() {
-            
+
             var _this            = this;
             var preview          = this.preview;
             var settings         = this.settings;
             var codeMirror       = this.codeMirror;
             var mouseOrTouch     = editormd.mouseOrTouch;
-            
+
             if (!settings.syncScrolling) {
                 return this;
             }
-                
-            var cmBindScroll = function() {    
+
+            var cmBindScroll = function() {
                 codeMirror.find(".CodeMirror-scroll").bind(mouseOrTouch("scroll", "touchmove"), function(event) {
                     var height    = $(this).height();
-                    var scrollTop = $(this).scrollTop();                    
-                    var percent   = (scrollTop / $(this)[0].scrollHeight);
-                    
+                    var scrollTop = $(this).scrollTop();
+                    var percent   = (scrollTop / $(this)[0].scrollTopMax);
                     var tocHeight = 0;
-                    
+
                     preview.find(".markdown-toc-list").each(function(){
                         tocHeight += $(this).height();
                     });
                     
                     var tocMenuHeight = preview.find(".editormd-toc-menu").height();
                     tocMenuHeight = (!tocMenuHeight) ? 0 : tocMenuHeight;
-                    var iframesHeight = $.find('iframe').reduce(
-                        function(total, fr){
-                            return total + parseInt(fr.height)
-                        }, 0
-                    )
-                    if (scrollTop === 0) 
+
+                    if (scrollTop === 0)
                     {
                         preview.scrollTop(0);
-                    } 
+                    }
                     else if (scrollTop + height >= $(this)[0].scrollHeight - 16)
-                    { 
-                        preview.scrollTop(preview[0].scrollHeight + iframesHeight);
-                    } 
+                    {
+                        preview.scrollTop(preview[0].scrollTopMax);
+                    }
                     else
                     {
-                        preview.scrollTop((preview[0].scrollHeight  + tocHeight + tocMenuHeight) * percent + iframesHeight);
+                        preview.scrollTop((preview[0].scrollTopMax  + tocHeight + tocMenuHeight) * percent);
                     }
                     
                     $.proxy(settings.onscroll, _this)(event);
@@ -2101,10 +2101,10 @@
             /**
              * Checking for iframes and rendering them as html
              */
-            const pArray = [...document.getElementsByClassName('editormd-preview-container')[0].children];
-            const iframeRegex = new RegExp('<\\s*iframe[^>]*>(.*?)<\\s*/\\s*iframe>', 'g');
+            var pArray = Array.from(document.getElementsByClassName('editormd-preview-container')[0].children);
+            var iframeRegex = new RegExp('<\\s*iframe[^>]*>(.*?)<\\s*/\\s*iframe>', 'g');
             for (let i = 0; i < pArray.length; i++) {
-                let matches = [...pArray[i].innerText.matchAll(iframeRegex)];
+                let matches = Array.from(pArray[i].innerText.matchAll(iframeRegex));
                 // Removing all string iframes
                 pArray[i].innerText = pArray[i].innerText.replace(iframeRegex, "");
                 for (let match of matches) {
