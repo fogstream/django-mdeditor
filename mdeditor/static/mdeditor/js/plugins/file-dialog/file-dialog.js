@@ -81,6 +81,7 @@
                         enter : [lang.buttons.enter, function() {
                             let url  = this.find("[data-url]").val();
                             let alt  = this.find("[data-alt]").val();
+                            let fullPath = document.location.origin + url;
 
                             if (url === "")
                             {
@@ -88,7 +89,7 @@
                                 return false;
                             }
 
-                            cm.replaceSelection(`[${alt}](${url} "${alt}")`);
+                            cm.replaceSelection(`[${alt}](${fullPath} "${alt}")`);
 
                             this.hide().lockScreen(false).hideMask();
 
