@@ -1,5 +1,7 @@
+# -*- coding:utf-8 -*-
 import os
 from setuptools import find_packages, setup
+from codecs import open
 
 with open(os.path.join(os.path.dirname(__file__), 'README.md'), encoding='utf-8') as readme:
     long_description = readme.read()
@@ -9,7 +11,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='fs-django-mdeditor',
-    version='0.1.20',
+    version='0.1.21',
     packages=find_packages(exclude=['mdeditor_demo', 'mdeditor_demo_app.*', 'mdeditor_demo_app']),
     include_package_data=True,
     license='GPL-3.0 License',
@@ -30,6 +32,7 @@ setup(
         'Framework :: Django :: 2.0',
         'Framework :: Django :: 2.1',
         'Framework :: Django :: 2.2',
+        'Framework :: Django :: 3.0',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
@@ -40,6 +43,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content'
     ]

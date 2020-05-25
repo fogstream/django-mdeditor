@@ -2,9 +2,9 @@
 # django-mdeditor
 
 
-[![ENV](https://img.shields.io/badge/release-v0.1.16-blue.svg)](https://github.com/pylixm/django-mdeditor)
-[![ENV](https://img.shields.io/badge/中文文档-v0.1.16-blue.svg)](./README_CN.md)
-[![ENV](https://img.shields.io/badge/gitter-v0.1.16-blue.svg)](https://gitter.im/django-mdeditor/Lobby)
+[![ENV](https://img.shields.io/badge/release-v0.1.18-blue.svg)](https://github.com/pylixm/django-mdeditor)
+[![ENV](https://img.shields.io/badge/中文文档-v0.1.18-blue.svg)](./README_CN.md)
+[![ENV](https://img.shields.io/badge/gitter-v0.1.18-blue.svg)](https://gitter.im/django-mdeditor/Lobby)
 [![ENV](https://img.shields.io/badge/python-2.x/3.x-green.svg)](https://github.com/pylixm/django-mdeditor)
 [![ENV](https://img.shields.io/badge/django-1.7+-green.svg)](https://github.com/pylixm/django-mdeditor)
 [![LICENSE](https://img.shields.io/badge/license-GPL3.0-green.svg)](https://github.com/pylixm/django-mdeditor/master/LICENSE.txt)
@@ -14,7 +14,10 @@
 
 **Django-mdeditor** 的灵感参考自伟大的项目 [django-ckeditor](https://github.com/django-ckeditor/django-ckeditor).
 
-**注：** 关于Markdown页面渲染问题，建议后端渲染。因`Editor.md` 已长时间不更新有些bug和兼容性问题需要自己调试，当然前端同学可自行选择。
+**注：** 
+
+- 关于Markdown页面渲染问题，建议后端渲染。因`Editor.md` 已长时间不更新有些bug和兼容性问题需要自己调试，当然前端同学可自行选择。
+- 关于`Jquery`冲突问题，因admin后端需要，无法删除。建议将编辑页面单独一页或直接单独全屏一页，使用自己单独的静态文件，与其他页面区分。
 
 ## 功能
 
@@ -42,6 +45,12 @@
         ...
         'mdeditor',
     ]
+```
+
+- 针对django3.0+修改 frame 配置，如下：
+
+```python
+X_FRAME_OPTIONS = 'SAMEORIGIN'  # django 3.0 + 默认为 deny
 ```
 
 - 在 `settings` 中添加媒体文件的路径配置:
@@ -181,6 +190,7 @@ admin.site.register(demo_models.ExampleModel, ExampleModelAdmin)
 在 `settings` 中增加如下配置 ：
 ```python
 MDEDITOR_CONFIGS = {
+'default':{
     'width': '90%',  # 自定义编辑框宽度
     'heigth': 500,   # 自定义编辑框高度
     'toolbar': ["undo", "redo", "|",
@@ -205,6 +215,7 @@ MDEDITOR_CONFIGS = {
     'watch': True,  # 实时预览
     'lineWrapping': False,  # 自动换行
     'lineNumbers': False  # 行号
+    }
 }
 ```
 

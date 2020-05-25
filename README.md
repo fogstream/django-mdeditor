@@ -2,9 +2,9 @@
 # django-mdeditor
 
 
-[![ENV](https://img.shields.io/badge/release-v0.1.16-blue.svg)](https://github.com/pylixm/django-mdeditor)
-[![ENV](https://img.shields.io/badge/中文-v0.1.16-blue.svg)](./README_CN.md)
-[![ENV](https://img.shields.io/badge/Gitter-v0.1.16-blue.svg)](https://gitter.im/django-mdeditor/Lobby)
+[![ENV](https://img.shields.io/badge/release-v0.1.18-blue.svg)](https://github.com/pylixm/django-mdeditor)
+[![ENV](https://img.shields.io/badge/中文-v0.1.18-blue.svg)](./README_CN.md)
+[![ENV](https://img.shields.io/badge/Gitter-v0.1.18-blue.svg)](https://gitter.im/django-mdeditor/Lobby)
 [![ENV](https://img.shields.io/badge/python-2.x/3.x-green.svg)](https://github.com/pylixm/django-mdeditor)
 [![ENV](https://img.shields.io/badge/django-1.7+-green.svg)](https://github.com/pylixm/django-mdeditor)
 [![LICENSE](https://img.shields.io/badge/license-GPL3.0-green.svg)](https://github.com/pylixm/django-mdeditor/master/LICENSE.txt)
@@ -15,7 +15,10 @@
 
 **Django-mdeditor** was inspired by great [django-ckeditor](https://github.com/django-ckeditor/django-ckeditor).
 
-**Note:** For Markdown page rendering issues, backend rendering is recommended. Because `Editor.md` has not been updated for a long time, some bugs and compatibility issues need to be debugged. Of course, front-end students can choose.
+**Note:** 
+
+- For Markdown page rendering issues, backend rendering is recommended. Because `Editor.md` has not been updated for a long time, some bugs and compatibility issues need to be debugged. Of course, front-end students can choose.
+- Regarding the `Jquery` conflict, it cannot be deleted because it is required by the admin backend. It is recommended to separate the editing page on a single page or a full screen directly, using its own static file to distinguish it from other pages.
 
 ## Features
 
@@ -45,6 +48,12 @@
         ...
         'mdeditor',
     ]
+```
+
+- add frame settings for django3.0+ like this：
+
+```python
+X_FRAME_OPTIONS = 'SAMEORIGIN' 
 ```
 
 - Add 'media' url to your settings like this:

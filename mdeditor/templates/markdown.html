@@ -75,6 +75,7 @@
             searchReplace: {{ config.search_replace|lower }},
             emoji: {{ config.emoji|lower }},
             tex: {{ config.tex|lower }},
+            taskList: {{ config.task_list|lower }},
             flowChart: {{ config.flow_chart|lower }},
             sequenceDiagram: {{ config.sequence|lower }},
 
@@ -82,6 +83,12 @@
             imageUpload: true,
             imageFormats: {{ config.upload_image_formats|safe }},
             imageUploadURL: "/mdeditor/uploads/",
+
+            // file upload
+            fileUpload: true,
+            fileFormats: {{ config.upload_file_formats|safe }},
+            fileUploadURL: "/mdeditor/file_uploads/",
+
             toolbarIcons: function () {
                 return {{ config.toolbar|safe }}
             },

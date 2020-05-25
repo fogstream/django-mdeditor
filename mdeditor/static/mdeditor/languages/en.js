@@ -26,6 +26,7 @@
                 link             : "Link",
                 "reference-link" : "Reference link",
                 image            : "Image",
+                file             : "File",
                 code             : "Code inline",
                 "preformatted-text" : "Preformatted text / Code block (Tab indent)",
                 "code-block"     : "Code block (Multi-languages)",
@@ -74,6 +75,16 @@
                     imageURLEmpty    : "Error: picture url address can't be empty.",
                     uploadFileEmpty  : "Error: upload pictures cannot be empty!",
                     formatNotAllowed : "Error: only allows to upload pictures file, upload allowed image file format:"
+                },
+                file : {
+                    title    : "File",
+                    url      : "Address",
+                    link     : "Link",
+                    alt      : "Title",
+                    uploadButton     : "Upload",
+                    fileURLEmpty     : "Error: file url address can't be empty.",
+                    uploadFileEmpty  : "Error: upload file cannot be empty!",
+                    formatNotAllowed : "Error: only allows to upload some file, upload allowed file format:"
                 },
                 preformattedText : {
                     title             : "Preformatted text / Codes", 
