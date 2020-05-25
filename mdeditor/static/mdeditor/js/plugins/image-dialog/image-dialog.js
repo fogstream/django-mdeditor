@@ -123,7 +123,7 @@ function fileType(extention) {
                             }
                             else
                             {
-                                cm.replaceSelection("[![" + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
+                                cm.replaceSelection("[![" + alt + "](" + fullPath + altAttr + ")](" + link + altAttr + ")");
                             }
 
                             if (alt === "") {
