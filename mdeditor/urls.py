@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import django
 
-from .views import UploadView
+from .views import FileUploadView, UploadView
 
 if django.VERSION[0] > 1:
     from django.urls import re_path as url_func
@@ -11,4 +11,5 @@ else:
 
 urlpatterns = [
     url_func(r'^uploads/$', UploadView.as_view(), name='uploads'),
+    url_func(r'^file_uploads/$', FileUploadView.as_view(), name='file_uploads'),
 ]

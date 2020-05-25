@@ -13,39 +13,47 @@ from .configs import MDConfig
 MDEDITOR_CONFIGS = MDConfig('default')
 
 
-class UploadView(generic.View):
-    """ upload image file """
+class BaseUploadView(generic.View):
+    """ base class for upload file """
 
     @method_decorator(csrf_exempt)
     def dispatch(self, *args, **kwargs):
-        return super(UploadView, self).dispatch(*args, **kwargs)
+        return super(BaseUploadView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        upload_image = request.FILES.get("editormd-image-file", None)
+        if kwargs.get('type') == 'file':
+            upload_file = request.FILES.get("editormd-upload-file", None)
+            upload_folder = MDEDITOR_CONFIGS['file_folder']
+            upload_formats = MDEDITOR_CONFIGS['upload_file_formats']
+        else:
+            upload_file = request.FILES.get("editormd-image-file", None)
+            upload_folder = MDEDITOR_CONFIGS['image_folder']
+            upload_formats = MDEDITOR_CONFIGS['upload_image_formats']
+
         media_root = settings.MEDIA_ROOT
 
-        # image none check
-        if not upload_image:
+        # file none check
+        if not upload_file:
             return JsonResponse({
                 'success': 0,
                 'message': "未获取到要上传的图片",
                 'url': ""
             })
 
-        # image format check
-        file_name_list = upload_image.name.split('.')
+        # file format check
+        file_name_list = upload_file.name.split('.')
         file_extension = file_name_list.pop(-1)
         file_name = '.'.join(file_name_list)
-        if file_extension not in MDEDITOR_CONFIGS['upload_image_formats']:
+        if file_extension.lower() not in upload_formats:
             return JsonResponse({
                 'success': 0,
                 'message': "上传图片格式错误，允许上传图片格式为：%s" % ','.join(
-                    MDEDITOR_CONFIGS['upload_image_formats']),
+                    upload_formats),
                 'url': ""
             })
 
-        # image floder check
-        file_path = os.path.join(media_root, MDEDITOR_CONFIGS['image_folder'])
+        # file floder check
+        file_path = os.path.join(media_root, upload_folder)
         if not os.path.exists(file_path):
             try:
                 os.makedirs(file_path)
@@ -56,16 +64,30 @@ class UploadView(generic.View):
                     'url': ""
                 })
 
-        # save image
+        # save file
         file_full_name = '%s_%s.%s' % (file_name,
                                        '{0:%Y%m%d%H%M%S%f}'.format(datetime.datetime.now()),
                                        file_extension)
         with open(os.path.join(file_path, file_full_name), 'wb+') as file:
-            for chunk in upload_image.chunks():
+            for chunk in upload_file.chunks():
                 file.write(chunk)
 
         return JsonResponse({'success': 1,
                              'message': "上传成功！",
                              'url': os.path.join(settings.MEDIA_URL,
-                                                 MDEDITOR_CONFIGS['image_folder'],
+                                                 upload_folder,
                                                  file_full_name)})
+
+
+class UploadView(BaseUploadView):
+    """ image upload class """
+    def post(self, request, *args, **kwargs):
+        kwargs['type'] = 'image'
+        return super(UploadView, self).post(request, *args, **kwargs)
+
+
+class FileUploadView(BaseUploadView):
+    """ file upload class """
+    def post(self, request, *args, **kwargs):
+        kwargs['type'] = 'file'
+        return super(FileUploadView, self).post(request, *args, **kwargs)

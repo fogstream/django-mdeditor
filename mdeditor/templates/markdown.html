@@ -83,6 +83,12 @@
             imageUpload: true,
             imageFormats: {{ config.upload_image_formats|safe }},
             imageUploadURL: "/mdeditor/uploads/",
+
+            // file upload
+            fileUpload: true,
+            fileFormats: {{ config.upload_file_formats|safe }},
+            fileUploadURL: "/mdeditor/file_uploads/",
+
             toolbarIcons: function () {
                 return {{ config.toolbar|safe }}
             },

@@ -10,13 +10,15 @@ DEFAULT_CONFIG = {
                 "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
                 "h1", "h2", "h3", "h5", "h6", "|",
                 "list-ul", "list-ol", "hr", "|",
-                "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
+                "link", "reference-link", "image", "file", "code", "preformatted-text", "code-block", "table", "datetime",
                 "emoji", "html-entities", "pagebreak", "goto-line", "|",
                 "help", "info",
                 "||", "preview", "watch", "fullscreen"],
     'upload_image_formats': ["jpg", "JPG", "jpeg", "JPEG", "gif", "GIF", "png",
                              "PNG", "bmp", "BMP", "webp", "WEBP"],
     'image_folder': 'editor',
+    'upload_file_formats': ["pdf", "zip", "rar", "7z"],
+    'file_folder': 'editor/files/',
     'theme': 'default',  # dark / default
     'preview_theme': 'default',  # dark / default
     'editor_theme': 'default',  # pastel-on-dark / default

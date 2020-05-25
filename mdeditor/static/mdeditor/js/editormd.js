@@ -69,7 +69,7 @@
             "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
             "h1", "h2", "h3", "h4", "h5", "h6", "|",
             "list-ul", "list-ol", "hr", "|",
-            "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+            "link", "reference-link", "image", "file", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
             "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
             "help", "info"
         ],
@@ -148,6 +148,9 @@
         imageUpload          : false,
         imageFormats         : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         imageUploadURL       : "",
+        fileUpload           : false,
+        fileFormats          : ["pdf", "zip", "rar", "7z"],
+        fileUploadURL        : "",
         crossDomainUpload    : false,
         uploadCallbackURL    : "",
 
@@ -206,6 +209,7 @@
             link             : "fa-link",
             "reference-link" : "fa-anchor",
             image            : "fa-picture-o",
+            file             : "fa-file",
             code             : "fa-code",
             "preformatted-text" : "fa-file-code-o",
             "code-block"     : "fa-file-code-o",
@@ -252,6 +256,7 @@
                 link             : "链接",
                 "reference-link" : "引用链接",
                 image            : "添加图片",
+                file             : "添加文件",
                 code             : "行内代码",
                 "preformatted-text" : "预格式文本 / 代码块（缩进风格）",
                 "code-block"     : "代码块（多语言风格）",
@@ -301,6 +306,16 @@
                     imageURLEmpty    : "错误：图片地址不能为空。",
                     uploadFileEmpty  : "错误：上传的图片不能为空。",
                     formatNotAllowed : "错误：只允许上传图片文件，允许上传的图片文件格式有："
+                },
+                file : {
+                    title    : "添加文件",
+                    url      : "图片地址",
+                    link     : "图片链接",
+                    alt      : "图片描述",
+                    uploadButton     : "本地上传",
+                    fileURLEmpty     : "错误：文件地址不能为空。",
+                    uploadFileEmpty  : "错误：上传的文件不能为空。",
+                    formatNotAllowed : "错误：只能下载数据文件格式："
                 },
                 preformattedText : {
                     title             : "添加预格式文本或代码块",
@@ -1272,7 +1287,7 @@
                     }
                 }
 
-                if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" &&
+                if (name !== "link" && name !== "reference-link" && name !== "image" && name != "file" && name !== "code-block" &&
                     name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info")
                 {
                     cm.focus();
@@ -3126,6 +3141,10 @@
             this.executePlugin("imageDialog", "image-dialog/image-dialog");
         },
 
+        file : function() {
+            this.executePlugin("fileDialog", "file-dialog/file-dialog");
+        },
+
         code : function() {
             var cm        = this.cm;
             var cursor    = cm.getCursor();
@@ -3307,6 +3326,7 @@
         },
 
         "Shift-Ctrl-Alt-I" : "image",
+        "Shift-Ctrl-Alt-F" : "file",
         "Shift-Ctrl-L"     : "link",
         "Shift-Ctrl-O"     : "list-ol",
         "Shift-Ctrl-P"     : "preformatted-text",
