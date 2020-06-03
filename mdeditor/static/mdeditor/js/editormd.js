@@ -53,6 +53,17 @@
      * @param   {Object} options      配置选项 Key/Value
      * @returns {Object} editormd     返回editormd对象
      */
+    const copyToClipboard = str => {
+        const el = document.createElement('textarea');
+        el.value = str;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+    };
 
     var editormd         = function (id, options) {
         return new editormd.fn.init(id, options);
@@ -1802,6 +1813,20 @@
             return this;
         },
 
+        bindCtrlClickHeader : function() {
+
+            var preview               = this.preview;
+
+            preview.on('click', function(e) {
+                const el = e.target
+                if ((e.ctrlKey === true || e.metaKey === true) && ['H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(el.tagName)) {
+                    copyToClipboard(`[${el.innerText}](#${el.id})`)
+                }
+            })
+
+            return this;
+        },
+
         /**
          * 加载队列完成之后的显示处理
          * Display handle of the module queues loaded after.
@@ -1836,7 +1861,7 @@
                 _this.resize();
             });
 
-            this.bindScrollEvent().bindChangeEvent();
+            this.bindScrollEvent().bindChangeEvent().bindCtrlClickHeader();
 
             if (!recreate)
             {
@@ -3580,6 +3605,31 @@
 
             return out;
         };
+        markedRenderer.slugify = function(str) {
+            // https://gist.github.com/sgmurphy/3095196
+            str = str.toLowerCase();
+
+            var char_map = {
+                // Russian
+                'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo', 'ж': 'zh',
+                'з': 'z', 'и': 'i', 'й': 'j', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
+                'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'c',
+                'ч': 'ch', 'ш': 'sh', 'щ': 'sh', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu',
+                'я': 'ya',
+            };
+            
+            // Transliterate characters to ASCII
+            for (var k in char_map) {
+                str = str.replace(RegExp(k, 'g'), char_map[k]);
+            }
+
+            str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+            .replace(/\s+/g, '-') // collapse whitespace and replace by -
+            .replace(/^-+|-+$/g, '-') // trim
+            .replace(/-+/g, '-'); // collapse dashes
+
+            return str;
+        };
 
         markedRenderer.heading = function(text, level, raw) {
 
@@ -3602,7 +3652,7 @@
 
             text = trim(text);
 
-            var escapedText    = text.toLowerCase().replace(/[^\w]+/g, "-");
+            var escapedText    = this.slugify(text)
             var toc = {
                 text  : text,
                 level : level,
@@ -3610,7 +3660,7 @@
             };
 
             var isChinese = /^[\u4e00-\u9fa5]+$/.test(text);
-            var id        = (isChinese) ? escape(text).replace(/\%/g, "") : text.toLowerCase().replace(/[^\w]+/g, "-");
+            var id        = (isChinese) ? escape(text).replace(/\%/g, "") : escapedText;
 
             markdownToC.push(toc);
 
